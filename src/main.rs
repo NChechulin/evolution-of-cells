@@ -4,6 +4,7 @@ use cell::Cell;
 use ggez::graphics::{DrawMode, Mesh, Rect};
 use ggez::*;
 use std::time::Duration;
+use std::time::Instant;
 
 // width and height
 const GRID_SIZE: (i32, i32) = (48, 27);
@@ -21,6 +22,7 @@ const MILLIS_PER_UPDATE: u64 = (1.0 / UPDATES_PER_SECOND * 1000.0) as u64;
 struct GameState {
     cells: Vec<Cell>,
     meshes: Vec<graphics::Mesh>,
+    last_update: Instant,
 }
 
 impl GameState {
@@ -52,13 +54,19 @@ impl GameState {
         Ok(GameState {
             cells,
             meshes: vec![mb.build(ctx)?],
+            last_update: Instant::now(),
         })
     }
 }
 
 impl ggez::event::EventHandler for GameState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
+        // limit the FPS
+        if Instant::now() - self.last_update < Duration::from_millis(MILLIS_PER_UPDATE) {
+            return Ok(());
+        }
         self.cells[0].move_forward();
+        self.last_update = Instant::now();
         Ok(())
     }
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
