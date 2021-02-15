@@ -62,9 +62,15 @@ impl ggez::event::EventHandler for GameState {
         Ok(())
     }
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
-        for cell_mesh in &self.meshes {
-            graphics::draw(ctx, cell_mesh, graphics::DrawParam::default())?;
+        graphics::clear(ctx, graphics::Color::BLACK);
+
+        for cell in &self.cells {
+            cell.draw(ctx);
         }
+
+        // for cell_mesh in &self.meshes {
+        //     graphics::draw(ctx, cell_mesh, graphics::DrawParam::default())?;
+        // }
 
         graphics::present(ctx)?;
         Ok(())

@@ -1,6 +1,9 @@
 use ggez::graphics::Color;
 use ggez::mint::Vector2;
 use crate::GRID_SIZE;
+use crate::GRID_CELL_SIZE;
+use crate::CELL_PADDING;
+use ggez::graphics;
 
 pub struct Cell {
     pub x_pos: i32,
@@ -54,5 +57,26 @@ impl Cell {
             7 => Vector2 { x: -1, y: 1 },
             _ => Vector2 { x: 0, y: 0 },
         }
+    }
+
+    pub fn draw(&self, ctx: &mut ggez::Context) -> ggez::GameResult<()> {
+        let x_pos = self.x_pos * GRID_CELL_SIZE.0 + self.x_pos * CELL_PADDING;
+        let y_pos = self.y_pos * GRID_CELL_SIZE.1 + self.y_pos * CELL_PADDING;
+
+        let bounds = graphics::Rect::new(
+            x_pos as f32,
+            y_pos as f32,
+            GRID_CELL_SIZE.0 as f32,
+            GRID_CELL_SIZE.1 as f32,
+        );
+
+        let rectangle = graphics::Mesh::new_rectangle(
+            ctx,
+            graphics::DrawMode::fill(),
+            bounds,
+            self.color,
+        )?;
+        graphics::draw(ctx, &rectangle, (ggez::mint::Point2 { x: 0.0, y: 0.0 }, ))?;
+        Ok(())
     }
 }
