@@ -43,8 +43,8 @@ impl GameState {
         let mb = &mut graphics::MeshBuilder::new();
         let cells: Vec<Cell> = vec![
             Cell::new(0, 0, graphics::Color::WHITE, 0),
-            Cell::new(3, 2, graphics::Color::from_rgb(60, 70, 90), 0),
-            Cell::new(4, 7, graphics::Color::from_rgb(255, 0, 0), 0),
+            Cell::new(3, 2, graphics::Color::from_rgb(60, 70, 90), 2),
+            Cell::new(4, 7, graphics::Color::from_rgb(255, 0, 0), 3),
         ];
 
         for cell in &cells {
@@ -65,7 +65,9 @@ impl ggez::event::EventHandler for GameState {
         if Instant::now() - self.last_update < Duration::from_millis(MILLIS_PER_UPDATE) {
             return Ok(());
         }
-        self.cells[0].move_forward();
+        for mut cell in &mut self.cells {
+            cell.move_forward();
+        }
         self.last_update = Instant::now();
         Ok(())
     }
