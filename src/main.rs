@@ -3,7 +3,7 @@ use std::time::Duration;
 use ggez::graphics::{DrawMode, Rect};
 
 // width and height
-const GRID_SIZE: (i16, i16) = (40, 30);
+const GRID_SIZE: (i16, i16) = (48, 27);
 const GRID_CELL_SIZE: (i16, i16) = (20, 20);
 const CELL_PADDING: i16 = 1;
 
