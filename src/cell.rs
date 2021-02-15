@@ -5,6 +5,7 @@ pub struct Cell {
     pub x_pos: i32,
     pub y_pos: i32,
     pub color: Color,
+    pub energy: i32,
     line_of_sight: Vector2<i8>,
 }
 
@@ -14,8 +15,21 @@ impl Cell {
             x_pos,
             y_pos,
             color,
+            energy: 64,
             line_of_sight: Cell::direction_by_number(direction),
         }
+    }
+
+    fn reduce_energy_by(&mut self, by: u8) {
+        self.energy -= by as i32;
+
+        if self.energy < 0 {
+            self.die();
+        }
+    }
+
+    fn die(&mut self) {
+        // do something when cell is dead.
     }
 
     pub fn change_line_of_sight(&mut self, new_direction: u8) {
