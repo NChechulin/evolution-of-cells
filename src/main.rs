@@ -38,22 +38,6 @@ impl GameState {
 
     fn new(ctx: &mut Context) -> GameResult<GameState> {
         let mb = &mut graphics::MeshBuilder::new();
-        //
-        // for row_num in 0..(GRID_SIZE.1) {
-        //     for col_num in 0..(GRID_SIZE.0) {
-        //         let x_pos = col_num * GRID_CELL_SIZE.0 + col_num * CELL_PADDING;
-        //         let y_pos = row_num * GRID_CELL_SIZE.1 + row_num * CELL_PADDING;
-        //
-        //         let rect = graphics::Rect::new(x_pos as f32, y_pos as f32, GRID_CELL_SIZE.0 as f32, GRID_CELL_SIZE.1 as f32);
-        //
-        //         mb.rectangle(
-        //             DrawMode::fill(),
-        //             rect,
-        //             graphics::Color::WHITE,
-        //         );
-        //     }
-        // }
-
         let cells: Vec<Cell> = vec![
             Cell {
                 x_pos: 0,
