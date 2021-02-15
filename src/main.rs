@@ -58,6 +58,7 @@ impl GameState {
 
 impl ggez::event::EventHandler for GameState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
+        self.cells[0].move_forward();
         Ok(())
     }
     fn draw(&mut self, ctx: &mut Context) -> GameResult {

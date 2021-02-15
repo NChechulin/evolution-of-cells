@@ -1,12 +1,13 @@
 use ggez::graphics::Color;
 use ggez::mint::Vector2;
+use crate::GRID_SIZE;
 
 pub struct Cell {
     pub x_pos: i32,
     pub y_pos: i32,
     pub color: Color,
     pub energy: i32,
-    line_of_sight: Vector2<i8>,
+    line_of_sight: Vector2<i32>,
 }
 
 impl Cell {
@@ -18,6 +19,11 @@ impl Cell {
             energy: 64,
             line_of_sight: Cell::direction_by_number(direction),
         }
+    }
+
+    pub fn move_forward(&mut self) {
+        self.x_pos = (self.x_pos + self.line_of_sight.x).rem_euclid(GRID_SIZE.0);
+        self.y_pos = (self.y_pos + self.line_of_sight.y).rem_euclid(GRID_SIZE.1);
     }
 
     fn reduce_energy_by(&mut self, by: u8) {
@@ -36,7 +42,7 @@ impl Cell {
         self.line_of_sight = Cell::direction_by_number(new_direction);
     }
 
-    fn direction_by_number(direction: u8) -> Vector2<i8> {
+    fn direction_by_number(direction: u8) -> Vector2<i32> {
         match direction {
             0 => Vector2 { x: 0, y: 1 },
             1 => Vector2 { x: 1, y: 1 },
@@ -46,7 +52,7 @@ impl Cell {
             5 => Vector2 { x: -1, y: -1 },
             6 => Vector2 { x: -1, y: 0 },
             7 => Vector2 { x: -1, y: 1 },
-            _ => Vector2 {x: 0, y: 0},
+            _ => Vector2 { x: 0, y: 0 },
         }
     }
 }
