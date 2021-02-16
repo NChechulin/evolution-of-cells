@@ -10,6 +10,7 @@ pub struct Cell {
     pub y_pos: i32,
     pub color: Color,
     pub energy: i32,
+    pub lifetime: u32,
     line_of_sight: Vector2<i32>,
 }
 
@@ -20,6 +21,7 @@ impl Cell {
             y_pos,
             color,
             energy: 64,
+            lifetime: 0,
             line_of_sight: Cell::direction_by_number(direction),
         }
     }
