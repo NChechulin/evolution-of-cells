@@ -7,6 +7,7 @@ pub enum Gene {
     DetachFromAllCells,
     ShareEnergy,
     SkipMove,
+    Split,
     GoTo(usize),
 }
 
@@ -21,6 +22,7 @@ impl Gene {
             13 => Gene::DetachFromAllCells,
             14 => Gene::ShareEnergy,
             15 => Gene::SkipMove,
+            16 => Gene::Split,
             _ => Gene::GoTo(val as usize),
         }
     }

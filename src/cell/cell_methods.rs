@@ -2,6 +2,9 @@ pub trait CellMethods {
     /// "Kills" the cell and transforms it into food
     fn die(&mut self);
 
+    /// Create a child cell (similar to the current cell)
+    fn split(&mut self);
+
     /// Reduces the cell's energy by desired value
     fn decrease_energy_by(&mut self, by: u8);
 

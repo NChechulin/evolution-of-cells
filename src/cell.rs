@@ -84,6 +84,10 @@ impl CellMethods for Cell {
         unimplemented!()
     }
 
+    fn split(&mut self) {
+        unimplemented!()
+    }
+
     fn decrease_energy_by(&mut self, by: u8) {
         self.energy -= by as i32;
 
@@ -151,6 +155,7 @@ impl CellMethods for Cell {
             Gene::DetachFromAllCells => self.detach_from_all_cells(),
             Gene::ShareEnergy => self.share_energy(),
             Gene::SkipMove => self.skip_move(),
+            Gene::Split => self.split(),
             Gene::GoTo(gene_index) => self.go_to(gene_index),
         }
     }
