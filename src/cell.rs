@@ -107,18 +107,22 @@ impl CellMethods for Cell {
     }
 
     fn attach_to_cell(&mut self) {
+        // TODO: implement colonies
         unimplemented!()
     }
 
     fn detach_from_all_cells(&mut self) {
+        // TODO: implement colonies
         unimplemented!()
     }
 
     fn share_energy(&mut self) {
+        // TODO: implement colonies
         unimplemented!()
     }
 
     fn skip_move(&mut self) {
+        // TODO: implement a blocking mechanism in order to stop/continue executing next command
         unimplemented!()
     }
 
