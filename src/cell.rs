@@ -12,6 +12,8 @@ pub struct Cell {
     pub energy: i32,
     pub lifetime: u32,
     line_of_sight: Vector2<i32>,
+    genome: [u8; 64],
+    genome_index: usize,
 }
 
 impl Cell {
@@ -23,6 +25,8 @@ impl Cell {
             energy: 64,
             lifetime: 0,
             line_of_sight: Cell::direction_by_number(direction),
+            genome: [0; 64],
+            genome_index: 0,
         }
     }
 
