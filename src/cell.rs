@@ -1,9 +1,12 @@
+mod gene;
+
 use ggez::graphics::Color;
 use ggez::mint::Vector2;
 use crate::GRID_SIZE;
 use crate::GRID_CELL_SIZE;
 use crate::CELL_PADDING;
 use ggez::graphics;
+use gene::Gene;
 
 pub struct Cell {
     pub x_pos: i32,
@@ -84,5 +87,12 @@ impl Cell {
         )?;
         graphics::draw(ctx, &rectangle, (ggez::mint::Point2 { x: 0.0, y: 0.0 }, ))?;
         Ok(())
+    }
+
+    pub fn execute(&mut self) {
+        match Gene::from(self.genome[self.genome_index]) {
+            Gene::MoveForward => self.move_forward(),
+            _ => (),
+        }
     }
 }
