@@ -132,9 +132,18 @@ impl CellMethods for Cell {
     }
 
     fn execute_gene(&mut self) {
+        self.lifetime += 1;
+
         match Gene::from(self.genome[self.genome_index]) {
             Gene::MoveForward => self.move_forward(),
-            _ => (),
+            Gene::Eat => self.eat(),
+            Gene::Photosynthesize => self.photosynthesize(),
+            Gene::ChangeLineOfSight(val) => self.change_line_of_sight(val % 8),
+            Gene::AttachToCell => self.attach_to_cell(),
+            Gene::DetachFromAllCells => self.detach_from_all_cells(),
+            Gene::ShareEnergy => self.share_energy(),
+            Gene::SkipMove => self.skip_move(),
+            Gene::GoTo(gene_index) => self.go_to(gene_index),
         }
     }
 }
