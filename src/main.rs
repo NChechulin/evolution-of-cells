@@ -5,6 +5,7 @@ use ggez::graphics::{DrawMode, Mesh, Rect};
 use ggez::*;
 use std::time::Duration;
 use std::time::Instant;
+use crate::cell::cell_methods::CellMethods;
 
 // width and height
 const GRID_SIZE: (i32, i32) = (48, 27);

@@ -1,4 +1,5 @@
 mod gene;
+pub mod cell_methods;
 
 use ggez::graphics::Color;
 use ggez::mint::Vector2;
@@ -7,6 +8,7 @@ use crate::GRID_CELL_SIZE;
 use crate::CELL_PADDING;
 use ggez::graphics;
 use gene::Gene;
+use cell_methods::CellMethods;
 
 pub struct Cell {
     pub x_pos: i32,
@@ -31,27 +33,6 @@ impl Cell {
             genome: [0; 64],
             genome_index: 0,
         }
-    }
-
-    pub fn move_forward(&mut self) {
-        self.x_pos = (self.x_pos + self.line_of_sight.x).rem_euclid(GRID_SIZE.0);
-        self.y_pos = (self.y_pos + self.line_of_sight.y).rem_euclid(GRID_SIZE.1);
-    }
-
-    fn reduce_energy_by(&mut self, by: u8) {
-        self.energy -= by as i32;
-
-        if self.energy < 0 {
-            self.die();
-        }
-    }
-
-    fn die(&mut self) {
-        // do something when cell is dead.
-    }
-
-    pub fn change_line_of_sight(&mut self, new_direction: u8) {
-        self.line_of_sight = Cell::direction_by_number(new_direction);
     }
 
     fn direction_by_number(direction: u8) -> Vector2<i32> {
@@ -88,8 +69,64 @@ impl Cell {
         graphics::draw(ctx, &rectangle, (ggez::mint::Point2 { x: 0.0, y: 0.0 }, ))?;
         Ok(())
     }
+}
 
-    pub fn execute(&mut self) {
+
+impl CellMethods for Cell {
+    fn die(&mut self) {
+        unimplemented!()
+    }
+
+    fn decrease_energy_by(&mut self, by: u8) {
+        self.energy -= by as i32;
+
+        if self.energy < 0 {
+            self.die();
+        }
+    }
+
+    fn increase_energy_by(&mut self, by: u8) {
+        self.energy += by as i32;
+    }
+
+    fn move_forward(&mut self) {
+        self.x_pos = (self.x_pos + self.line_of_sight.x).rem_euclid(GRID_SIZE.0);
+        self.y_pos = (self.y_pos + self.line_of_sight.y).rem_euclid(GRID_SIZE.1);
+    }
+
+    fn eat(&mut self) {
+        unimplemented!()
+    }
+
+    fn photosynthesize(&mut self) {
+        unimplemented!()
+    }
+
+    fn change_line_of_sight(&mut self, new_direction: u8) {
+        self.line_of_sight = Cell::direction_by_number(new_direction);
+    }
+
+    fn attach_to_cell(&mut self) {
+        unimplemented!()
+    }
+
+    fn detach_from_all_cells(&mut self) {
+        unimplemented!()
+    }
+
+    fn share_energy(&mut self) {
+        unimplemented!()
+    }
+
+    fn skip_move(&mut self) {
+        unimplemented!()
+    }
+
+    fn go_to(&mut self, new_index: usize) {
+        unimplemented!()
+    }
+
+    fn execute_gene(&mut self) {
         match Gene::from(self.genome[self.genome_index]) {
             Gene::MoveForward => self.move_forward(),
             _ => (),
