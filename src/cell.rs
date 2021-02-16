@@ -127,7 +127,8 @@ impl CellMethods for Cell {
     }
 
     fn go_to(&mut self, new_index: usize) {
-        unimplemented!()
+        self.genome_index = new_index;
+        self.execute_gene();
     }
 
     fn execute_gene(&mut self) {
