@@ -49,6 +49,13 @@ impl Cell {
         }
     }
 
+    /// Returns position at which cell is pointing (forward)
+    fn get_new_pos(&self) -> (i32, i32) {
+        let x_pos = (self.x_pos + self.line_of_sight.x).rem_euclid(GRID_SIZE.0);
+        let y_pos = (self.y_pos + self.line_of_sight.y).rem_euclid(GRID_SIZE.1);
+        (x_pos, y_pos)
+    }
+
     pub fn draw(&self, ctx: &mut ggez::Context) -> ggez::GameResult<()> {
         let x_pos = self.x_pos * GRID_CELL_SIZE.0 + self.x_pos * CELL_PADDING;
         let y_pos = self.y_pos * GRID_CELL_SIZE.1 + self.y_pos * CELL_PADDING;
@@ -90,8 +97,9 @@ impl CellMethods for Cell {
     }
 
     fn move_forward(&mut self) {
-        self.x_pos = (self.x_pos + self.line_of_sight.x).rem_euclid(GRID_SIZE.0);
-        self.y_pos = (self.y_pos + self.line_of_sight.y).rem_euclid(GRID_SIZE.1);
+        let new_pos = self.get_new_pos();
+        self.x_pos = new_pos.0;
+        self.y_pos = new_pos.1;
     }
 
     fn eat(&mut self) {
