@@ -36,7 +36,7 @@ impl GameState {
             GRID_CELL_SIZE.0 as f32,
             GRID_CELL_SIZE.1 as f32,
         );
-        mb.rectangle(DrawMode::fill(), rect, cell.color);
+        mb.rectangle(DrawMode::fill(), rect, cell.color).unwrap();
     }
 
     fn new() -> GameResult<GameState> {
@@ -74,7 +74,7 @@ impl ggez::event::EventHandler for GameState {
         graphics::clear(ctx, graphics::Color::BLACK);
 
         for cell in &self.cells {
-            cell.draw(ctx);
+            cell.draw(ctx)?;
         }
 
         // for cell_mesh in &self.meshes {
