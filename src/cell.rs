@@ -10,11 +10,13 @@ use ggez::graphics;
 use gene::Gene;
 use cell_methods::CellMethods;
 
+
 pub struct Cell {
     pub x_pos: i32,
     pub y_pos: i32,
     pub color: Color,
     pub energy: f32,
+    max_energy: f32,
     pub lifetime: u32,
     line_of_sight: Vector2<i32>,
     genome: [u8; 64],
@@ -28,6 +30,7 @@ impl Cell {
             y_pos,
             color,
             energy: 128f32,
+            max_energy: 256f32,
             lifetime: 0,
             line_of_sight: Cell::direction_by_number(direction),
             genome: [0; 64],
@@ -98,6 +101,9 @@ impl CellMethods for Cell {
 
     fn increase_energy_by(&mut self, by: f32) {
         self.energy += by;
+        if self.energy > self.max_energy {
+            self.energy = self.max_energy;
+        }
     }
 
     fn move_forward(&mut self) {
