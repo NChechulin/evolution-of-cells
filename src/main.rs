@@ -1,10 +1,11 @@
 mod cell;
 
 use cell::Cell;
-use ggez::graphics::{DrawMode, Mesh, Rect};
 use ggez::*;
 use std::time::Duration;
 use std::time::Instant;
+use crate::cell::cell_methods::CellMethods;
+use ggez::graphics::DrawMode;
 
 // width and height
 const GRID_SIZE: (i32, i32) = (48, 27);
@@ -21,7 +22,6 @@ const MILLIS_PER_UPDATE: u64 = (1.0 / UPDATES_PER_SECOND * 1000.0) as u64;
 
 struct GameState {
     cells: Vec<Cell>,
-    meshes: Vec<graphics::Mesh>,
     last_update: Instant,
 }
 
@@ -36,10 +36,10 @@ impl GameState {
             GRID_CELL_SIZE.0 as f32,
             GRID_CELL_SIZE.1 as f32,
         );
-        mb.rectangle(DrawMode::fill(), rect, cell.color);
+        mb.rectangle(DrawMode::fill(), rect, cell.color).unwrap();
     }
 
-    fn new(ctx: &mut Context) -> GameResult<GameState> {
+    fn new() -> GameResult<GameState> {
         let mb = &mut graphics::MeshBuilder::new();
         let cells: Vec<Cell> = vec![
             Cell::new(0, 0, graphics::Color::WHITE, 0),
@@ -53,19 +53,18 @@ impl GameState {
 
         Ok(GameState {
             cells,
-            meshes: vec![mb.build(ctx)?],
             last_update: Instant::now(),
         })
     }
 }
 
 impl ggez::event::EventHandler for GameState {
-    fn update(&mut self, ctx: &mut Context) -> GameResult {
+    fn update(&mut self, _ctx: &mut Context) -> GameResult {
         // limit the FPS
         if Instant::now() - self.last_update < Duration::from_millis(MILLIS_PER_UPDATE) {
             return Ok(());
         }
-        for mut cell in &mut self.cells {
+        for cell in &mut self.cells {
             cell.move_forward();
         }
         self.last_update = Instant::now();
@@ -75,7 +74,7 @@ impl ggez::event::EventHandler for GameState {
         graphics::clear(ctx, graphics::Color::BLACK);
 
         for cell in &self.cells {
-            cell.draw(ctx);
+            cell.draw(ctx)?;
         }
 
         // for cell_mesh in &self.meshes {
@@ -88,7 +87,7 @@ impl ggez::event::EventHandler for GameState {
 }
 
 fn main() {
-    let (mut ctx, events_loop) =
+    let (ctx, events_loop) =
         ggez::ContextBuilder::new("evolution-of-cells", "Nikolay Chechulin")
             // Next we set up the window. This title will be displayed in the title bar of the window.
             .window_setup(ggez::conf::WindowSetup::default().title("Evolution of cells"))
@@ -100,7 +99,7 @@ fn main() {
             .unwrap();
 
     // Next we create a new instance of our GameState struct, which implements EventHandler
-    let mut state = GameState::new(&mut ctx).unwrap();
+    let state = GameState::new().unwrap();
 
     // And finally we actually run our game, passing in our context and state.
     event::run(ctx, events_loop, state)
