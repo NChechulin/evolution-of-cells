@@ -6,10 +6,10 @@ pub trait CellMethods {
     fn split(&mut self);
 
     /// Reduces the cell's energy by desired value
-    fn decrease_energy_by(&mut self, by: u8);
+    fn decrease_energy_by(&mut self, by: f32);
 
     /// Increases the cell's energy by desired value
-    fn increase_energy_by(&mut self, by: u8);
+    fn increase_energy_by(&mut self, by: f32);
 
     /// Moves the cell towards line_of_sight
     fn move_forward(&mut self);

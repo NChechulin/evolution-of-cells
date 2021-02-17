@@ -14,7 +14,7 @@ pub struct Cell {
     pub x_pos: i32,
     pub y_pos: i32,
     pub color: Color,
-    pub energy: i32,
+    pub energy: f32,
     pub lifetime: u32,
     line_of_sight: Vector2<i32>,
     genome: [u8; 64],
@@ -27,7 +27,7 @@ impl Cell {
             x_pos,
             y_pos,
             color,
-            energy: 64,
+            energy: 128f32,
             lifetime: 0,
             line_of_sight: Cell::direction_by_number(direction),
             genome: [0; 64],
@@ -88,16 +88,16 @@ impl CellMethods for Cell {
         unimplemented!()
     }
 
-    fn decrease_energy_by(&mut self, by: u8) {
-        self.energy -= by as i32;
+    fn decrease_energy_by(&mut self, by: f32) {
+        self.energy -= by;
 
-        if self.energy < 0 {
+        if self.energy < 0f32 {
             self.die();
         }
     }
 
-    fn increase_energy_by(&mut self, by: u8) {
-        self.energy += by as i32;
+    fn increase_energy_by(&mut self, by: f32) {
+        self.energy += by;
     }
 
     fn move_forward(&mut self) {
