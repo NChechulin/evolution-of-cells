@@ -88,7 +88,11 @@ impl Cell {
 
 impl CellMethods for Cell {
     fn die(&mut self) {
-        unimplemented!()
+        self.color = Color::from_rgb(30, 30, 30);
+        self.energy = 10.0;
+        self.line_of_sight = Vector2{ x: 0, y: 0 };
+        self.genome = [15; 64];
+        // unimplemented!()
     }
 
     fn split(&mut self) {
@@ -153,8 +157,6 @@ impl CellMethods for Cell {
 
     fn skip_move(&mut self) {
         self.decrease_energy_by(self.energy_constants.detach_from_all_cells);
-        // TODO: implement a blocking mechanism in order to stop/continue executing next command
-        unimplemented!()
     }
 
     fn go_to(&mut self, new_index: usize) {
