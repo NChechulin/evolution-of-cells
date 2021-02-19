@@ -33,7 +33,7 @@ impl Cell {
             max_energy: 256f32,
             lifetime: 0,
             line_of_sight: Cell::direction_by_number(direction),
-            genome: [0; 64],
+            genome: [1, 4, 1, 10, 1, 4, 1, 8, 1, 11, 1, 1, 7, 1, 11, 1, 11, 1, 8, 1, 10, 1, 11, 1, 7, 1, 11, 1, 9, 1, 8, 1, 9, 1, 5, 1, 6, 1, 7, 1, 10, 1, 11, 1, 9, 1, 7, 1, 8, 1, 9, 1, 11, 1, 4, 1, 5, 1, 4, 1, 6, 1, 6, 1],
             genome_index: 0,
         }
     }
@@ -151,6 +151,8 @@ impl CellMethods for Cell {
 
     fn execute_gene(&mut self) {
         self.lifetime += 1;
+        self.genome_index += 1;
+        self.genome_index %= self.genome.len();
 
         match Gene::from(self.genome[self.genome_index]) {
             Gene::MoveForward => self.move_forward(),

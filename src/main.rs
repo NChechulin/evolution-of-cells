@@ -46,7 +46,7 @@ impl ggez::event::EventHandler for GameState {
             return Ok(());
         }
         for cell in &mut self.cells {
-            cell.move_forward();
+            cell.execute_gene();
         }
         self.last_update = Instant::now();
         Ok(())
