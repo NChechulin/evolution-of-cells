@@ -1,6 +1,7 @@
 mod cell;
 
 use cell::Cell;
+use crate::cell::energy_constants::EnergyConstants;
 use ggez::*;
 use std::time::Duration;
 use std::time::Instant;
@@ -27,9 +28,9 @@ struct GameState {
 impl GameState {
     fn new() -> GameResult<GameState> {
         let cells: Vec<Cell> = vec![
-            Cell::new(0, 0, graphics::Color::WHITE, 0),
-            Cell::new(3, 2, graphics::Color::from_rgb(60, 70, 90), 2),
-            Cell::new(4, 7, graphics::Color::from_rgb(255, 0, 0), 3),
+            Cell::new(0, 0, graphics::Color::WHITE, 0, EnergyConstants::new()),
+            Cell::new(3, 2, graphics::Color::from_rgb(60, 70, 90), 2, EnergyConstants::new()),
+            Cell::new(4, 7, graphics::Color::from_rgb(255, 0, 0), 3, EnergyConstants::new()),
         ];
 
         Ok(GameState {
@@ -46,7 +47,7 @@ impl ggez::event::EventHandler for GameState {
             return Ok(());
         }
         for cell in &mut self.cells {
-            cell.move_forward();
+            cell.execute_gene();
         }
         self.last_update = Instant::now();
         Ok(())
