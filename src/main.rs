@@ -5,7 +5,6 @@ use ggez::*;
 use std::time::Duration;
 use std::time::Instant;
 use crate::cell::cell_methods::CellMethods;
-use ggez::graphics::DrawMode;
 
 // width and height
 const GRID_SIZE: (i32, i32) = (48, 27);
@@ -26,30 +25,12 @@ struct GameState {
 }
 
 impl GameState {
-    fn add_cell_to_mesh_builder(cell: &Cell, mb: &mut graphics::MeshBuilder) {
-        let x_pos = cell.x_pos * GRID_CELL_SIZE.0 + cell.x_pos * CELL_PADDING;
-        let y_pos = cell.y_pos * GRID_CELL_SIZE.1 + cell.y_pos * CELL_PADDING;
-
-        let rect = graphics::Rect::new(
-            x_pos as f32,
-            y_pos as f32,
-            GRID_CELL_SIZE.0 as f32,
-            GRID_CELL_SIZE.1 as f32,
-        );
-        mb.rectangle(DrawMode::fill(), rect, cell.color).unwrap();
-    }
-
     fn new() -> GameResult<GameState> {
-        let mb = &mut graphics::MeshBuilder::new();
         let cells: Vec<Cell> = vec![
             Cell::new(0, 0, graphics::Color::WHITE, 0),
             Cell::new(3, 2, graphics::Color::from_rgb(60, 70, 90), 2),
             Cell::new(4, 7, graphics::Color::from_rgb(255, 0, 0), 3),
         ];
-
-        for cell in &cells {
-            GameState::add_cell_to_mesh_builder(&cell, mb);
-        }
 
         Ok(GameState {
             cells,
@@ -70,16 +51,13 @@ impl ggez::event::EventHandler for GameState {
         self.last_update = Instant::now();
         Ok(())
     }
+
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         graphics::clear(ctx, graphics::Color::BLACK);
 
         for cell in &self.cells {
             cell.draw(ctx)?;
         }
-
-        // for cell_mesh in &self.meshes {
-        //     graphics::draw(ctx, cell_mesh, graphics::DrawParam::default())?;
-        // }
 
         graphics::present(ctx)?;
         Ok(())
