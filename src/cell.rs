@@ -1,4 +1,5 @@
 mod gene;
+mod energy_constants;
 pub mod cell_methods;
 
 use ggez::graphics::Color;
