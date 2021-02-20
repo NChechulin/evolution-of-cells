@@ -6,4 +6,4 @@ In order to suggest a feature one can open an issue and explain their idea.
 
 Also, I should note that I am not that experienced in Rust, so the code and structure of the project may be stinky.
 If you think that some piece of code can be improved (both from "local" and "global" points) then leave an issue describing the improvement.
-All of them will be welcome.
+All of them will be welcome :)
