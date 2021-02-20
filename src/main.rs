@@ -1,4 +1,5 @@
 mod cell;
+mod field;
 
 use cell::Cell;
 use crate::cell::energy_constants::EnergyConstants;
