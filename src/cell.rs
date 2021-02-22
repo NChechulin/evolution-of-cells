@@ -7,12 +7,13 @@ use ggez::mint::Vector2;
 use crate::GRID_SIZE;
 use crate::GRID_CELL_SIZE;
 use crate::CELL_PADDING;
+use crate::field::Field;
 use ggez::graphics;
 use gene::Gene;
 use energy_constants::EnergyConstants;
 use cell_methods::CellMethods;
 
-
+#[derive(Copy, Clone)]
 pub struct Cell {
     pub x_pos: i32,
     pub y_pos: i32,
@@ -57,7 +58,7 @@ impl Cell {
     }
 
     /// Returns position at which cell is pointing (forward)
-    fn get_new_pos(&self) -> (i32, i32) {
+    pub fn get_new_pos(&self) -> (i32, i32) {
         let x_pos = (self.x_pos + self.line_of_sight.x).rem_euclid(GRID_SIZE.0);
         let y_pos = (self.y_pos + self.line_of_sight.y).rem_euclid(GRID_SIZE.1);
         (x_pos, y_pos)
@@ -90,7 +91,7 @@ impl CellMethods for Cell {
     fn die(&mut self) {
         self.color = Color::from_rgb(30, 30, 30);
         self.energy = 10.0;
-        self.line_of_sight = Vector2{ x: 0, y: 0 };
+        self.line_of_sight = Vector2 { x: 0, y: 0 };
         self.genome = [15; 64];
         // unimplemented!()
     }

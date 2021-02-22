@@ -35,8 +35,10 @@ impl GameState {
             Cell::new(4, 7, graphics::Color::from_rgb(255, 0, 0), 3, EnergyConstants::new()),
         ];
 
+        let mut field = Field::new(cells);
+
         Ok(GameState {
-            field: Field::new(cells),
+            field,
             last_update: Instant::now(),
         })
     }
