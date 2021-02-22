@@ -26,7 +26,7 @@ impl Field {
         }
     }
 
-    fn cell_is_empty(&self, x_pos: i32, y_pos: i32) -> bool {
+    fn position_is_empty(&self, x_pos: i32, y_pos: i32) -> bool {
         for cell in &self.cells {
             if cell.x_pos == x_pos && cell.y_pos == y_pos {
                 return false;
@@ -38,7 +38,7 @@ impl Field {
     pub fn move_cell(&self, mut cell: Cell) -> Cell {
         let new_pos = cell.get_new_pos();
 
-        if self.cell_is_empty(new_pos.0, new_pos.1) {
+        if self.position_is_empty(new_pos.0, new_pos.1) {
             cell.x_pos = new_pos.0;
             cell.y_pos = new_pos.1;
         }
