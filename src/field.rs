@@ -1,4 +1,5 @@
 use crate::cell::Cell;
+use crate::cell::gene::Gene;
 use crate::cell::cell_methods::CellMethods;
 use ggez::Context;
 
@@ -22,7 +23,7 @@ impl Field {
 
     pub fn execute_code(&mut self) {
         for i in 0..self.cells.len() {
-            self.cells[i] = self.move_cell(self.cells[i].clone());
+            self.cells[i] = self.execute_next_gene(self.cells[i].clone());
         }
     }
 
@@ -43,5 +44,21 @@ impl Field {
             cell.y_pos = new_pos.1;
         }
         cell
+    }
+
+    fn execute_next_gene(&mut self, mut cell: Cell) -> Cell {
+        match cell.get_next_gene() {
+            Gene::MoveForward => self.move_cell(cell),
+            _ => cell,
+            // Gene::Eat => {}
+            // Gene::Photosynthesize => {}
+            // Gene::ChangeLineOfSight(_) => {}
+            // Gene::AttachToCell => {}
+            // Gene::DetachFromAllCells => {}
+            // Gene::ShareEnergy => {}
+            // Gene::SkipMove => {}
+            // Gene::Split => {}
+            // Gene::GoTo(_) => {}
+        }
     }
 }

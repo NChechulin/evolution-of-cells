@@ -1,4 +1,4 @@
-mod gene;
+pub(crate) mod gene;
 pub mod energy_constants;
 pub mod cell_methods;
 
@@ -84,104 +84,90 @@ impl Cell {
         graphics::draw(ctx, &rectangle, (ggez::mint::Point2 { x: 0.0, y: 0.0 }, ))?;
         Ok(())
     }
-}
 
+    // fn die(&mut self) {
+    //     self.color = Color::from_rgb(30, 30, 30);
+    //     self.energy = 10.0;
+    //     self.line_of_sight = Vector2 { x: 0, y: 0 };
+    //     self.genome = [15; 64];
+    //     // unimplemented!()
+    // }
+    //
+    // fn split(&mut self) {
+    //     self.decrease_energy_by(self.energy_constants.split);
+    //     unimplemented!()
+    // }
+    //
+    // fn decrease_energy_by(&mut self, by: f32) {
+    //     self.energy -= by;
+    //
+    //     if self.energy < 0f32 {
+    //         self.die();
+    //     }
+    // }
+    //
+    // fn increase_energy_by(&mut self, by: f32) {
+    //     self.energy += by;
+    //     if self.energy > self.max_energy {
+    //         self.energy = self.max_energy;
+    //     }
+    // }
+    //
+    // fn move_forward(&mut self) {
+    //     self.decrease_energy_by(self.energy_constants.move_forward);
+    //     let new_pos = self.get_new_pos();
+    //     self.x_pos = new_pos.0;
+    //     self.y_pos = new_pos.1;
+    // }
+    //
+    // fn eat(&mut self) {
+    //     self.decrease_energy_by(self.energy_constants.move_forward);
+    //     unimplemented!()
+    // }
+    //
+    // fn photosynthesize(&mut self) {
+    //     self.decrease_energy_by(self.energy_constants.photosynthesize);
+    //     unimplemented!()
+    // }
+    //
+    // fn change_line_of_sight(&mut self, new_direction: u8) {
+    //     self.decrease_energy_by(self.energy_constants.change_line_of_sight);
+    //     self.line_of_sight = Cell::direction_by_number(new_direction);
+    // }
+    //
+    // fn attach_to_cell(&mut self) {
+    //     self.decrease_energy_by(self.energy_constants.attach_to_cell);
+    //     // TODO: implement colonies
+    //     unimplemented!()
+    // }
+    //
+    // fn detach_from_all_cells(&mut self) {
+    //     self.decrease_energy_by(self.energy_constants.detach_from_all_cells);
+    //     // TODO: implement colonies
+    //     unimplemented!()
+    // }
+    //
+    // fn share_energy(&mut self) {
+    //     self.decrease_energy_by(self.energy_constants.share_energy);
+    //     // TODO: implement colonies
+    //     unimplemented!()
+    // }
+    //
+    // fn skip_move(&mut self) {
+    //     // self.decrease_energy_by(self.energy_constants.detach_from_all_cells);
+    // }
+    //
+    // fn go_to(&mut self, new_index: usize) {
+    //     // self.decrease_energy_by(self.energy_constants.go_to);
+    //     // self.genome_index = new_index;
+    //     // self.execute_gene();
+    // }
 
-impl CellMethods for Cell {
-    fn die(&mut self) {
-        self.color = Color::from_rgb(30, 30, 30);
-        self.energy = 10.0;
-        self.line_of_sight = Vector2 { x: 0, y: 0 };
-        self.genome = [15; 64];
-        // unimplemented!()
-    }
-
-    fn split(&mut self) {
-        self.decrease_energy_by(self.energy_constants.split);
-        unimplemented!()
-    }
-
-    fn decrease_energy_by(&mut self, by: f32) {
-        self.energy -= by;
-
-        if self.energy < 0f32 {
-            self.die();
-        }
-    }
-
-    fn increase_energy_by(&mut self, by: f32) {
-        self.energy += by;
-        if self.energy > self.max_energy {
-            self.energy = self.max_energy;
-        }
-    }
-
-    fn move_forward(&mut self) {
-        self.decrease_energy_by(self.energy_constants.move_forward);
-        let new_pos = self.get_new_pos();
-        self.x_pos = new_pos.0;
-        self.y_pos = new_pos.1;
-    }
-
-    fn eat(&mut self) {
-        self.decrease_energy_by(self.energy_constants.move_forward);
-        unimplemented!()
-    }
-
-    fn photosynthesize(&mut self) {
-        self.decrease_energy_by(self.energy_constants.photosynthesize);
-        unimplemented!()
-    }
-
-    fn change_line_of_sight(&mut self, new_direction: u8) {
-        self.decrease_energy_by(self.energy_constants.change_line_of_sight);
-        self.line_of_sight = Cell::direction_by_number(new_direction);
-    }
-
-    fn attach_to_cell(&mut self) {
-        self.decrease_energy_by(self.energy_constants.attach_to_cell);
-        // TODO: implement colonies
-        unimplemented!()
-    }
-
-    fn detach_from_all_cells(&mut self) {
-        self.decrease_energy_by(self.energy_constants.detach_from_all_cells);
-        // TODO: implement colonies
-        unimplemented!()
-    }
-
-    fn share_energy(&mut self) {
-        self.decrease_energy_by(self.energy_constants.share_energy);
-        // TODO: implement colonies
-        unimplemented!()
-    }
-
-    fn skip_move(&mut self) {
-        self.decrease_energy_by(self.energy_constants.detach_from_all_cells);
-    }
-
-    fn go_to(&mut self, new_index: usize) {
-        self.decrease_energy_by(self.energy_constants.go_to);
-        self.genome_index = new_index;
-        self.execute_gene();
-    }
-
-    fn execute_gene(&mut self) {
+    pub fn get_next_gene(&mut self) -> Gene {
         self.lifetime += 1;
         self.genome_index += 1;
         self.genome_index %= self.genome.len();
 
-        match Gene::from(self.genome[self.genome_index]) {
-            Gene::MoveForward => self.move_forward(),
-            Gene::Eat => self.eat(),
-            Gene::Photosynthesize => self.photosynthesize(),
-            Gene::ChangeLineOfSight(val) => self.change_line_of_sight(val % 8),
-            Gene::AttachToCell => self.attach_to_cell(),
-            Gene::DetachFromAllCells => self.detach_from_all_cells(),
-            Gene::ShareEnergy => self.share_energy(),
-            Gene::SkipMove => self.skip_move(),
-            Gene::Split => self.split(),
-            Gene::GoTo(gene_index) => self.go_to(gene_index),
-        }
+        Gene::from(self.genome[self.genome_index])
     }
 }
