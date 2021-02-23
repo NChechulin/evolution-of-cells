@@ -36,7 +36,7 @@ impl Field {
         true
     }
 
-    pub fn move_cell(&self, mut cell: Cell) -> Cell {
+    fn move_cell(&self, mut cell: Cell) -> Cell {
         let new_pos = cell.get_new_pos();
 
         if self.position_is_empty(new_pos.0, new_pos.1) {
@@ -46,12 +46,16 @@ impl Field {
         cell
     }
 
+    fn cell_photosynthesize(&self, mut cell: Cell) -> Cell {
+        cell.energy += cell.energy_constants.photosynthesize;
+        cell
+    }
+
     fn execute_next_gene(&mut self, mut cell: Cell) -> Cell {
         match cell.get_next_gene() {
             Gene::MoveForward => self.move_cell(cell),
-            _ => cell,
             // Gene::Eat => {}
-            // Gene::Photosynthesize => {}
+            Gene::Photosynthesize => self.cell_photosynthesize(cell),
             // Gene::ChangeLineOfSight(_) => {}
             // Gene::AttachToCell => {}
             // Gene::DetachFromAllCells => {}
@@ -59,6 +63,7 @@ impl Field {
             // Gene::SkipMove => {}
             // Gene::Split => {}
             // Gene::GoTo(_) => {}
+            _ => cell,
         }
     }
 }
