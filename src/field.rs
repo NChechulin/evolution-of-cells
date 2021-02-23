@@ -60,7 +60,7 @@ impl Field {
             // Gene::AttachToCell => {}
             // Gene::DetachFromAllCells => {}
             // Gene::ShareEnergy => {}
-            // Gene::SkipMove => {}
+            Gene::SkipMove => cell,
             // Gene::Split => {}
             // Gene::GoTo(_) => {}
             _ => cell,
