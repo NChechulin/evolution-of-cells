@@ -1,7 +1,9 @@
 mod cell;
+mod field;
 
 use cell::Cell;
 use crate::cell::energy_constants::EnergyConstants;
+use field::Field;
 use ggez::*;
 use std::time::Duration;
 use std::time::Instant;
@@ -21,7 +23,7 @@ const UPDATES_PER_SECOND: f32 = 8.0;
 const MILLIS_PER_UPDATE: u64 = (1.0 / UPDATES_PER_SECOND * 1000.0) as u64;
 
 struct GameState {
-    cells: Vec<Cell>,
+    field: Field,
     last_update: Instant,
 }
 
@@ -33,8 +35,10 @@ impl GameState {
             Cell::new(4, 7, graphics::Color::from_rgb(255, 0, 0), 3, EnergyConstants::new()),
         ];
 
+        let mut field = Field::new(cells);
+
         Ok(GameState {
-            cells,
+            field,
             last_update: Instant::now(),
         })
     }
@@ -46,9 +50,9 @@ impl ggez::event::EventHandler for GameState {
         if Instant::now() - self.last_update < Duration::from_millis(MILLIS_PER_UPDATE) {
             return Ok(());
         }
-        for cell in &mut self.cells {
-            cell.execute_gene();
-        }
+
+        self.field.execute_code();
+
         self.last_update = Instant::now();
         Ok(())
     }
@@ -56,9 +60,7 @@ impl ggez::event::EventHandler for GameState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         graphics::clear(ctx, graphics::Color::BLACK);
 
-        for cell in &self.cells {
-            cell.draw(ctx)?;
-        }
+        self.field.draw(ctx);
 
         graphics::present(ctx)?;
         Ok(())
