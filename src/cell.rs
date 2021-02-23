@@ -99,6 +99,10 @@ impl Cell {
         self.line_of_sight = Cell::direction_by_number(direction);
     }
 
+    pub fn goto(&mut self, new_index: usize) {
+        self.genome_index = new_index;
+    }
+
     pub fn get_next_gene(&mut self) -> Gene {
         self.lifetime += 1;
         self.genome_index += 1;

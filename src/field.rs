@@ -51,6 +51,11 @@ impl Field {
         cell
     }
 
+    fn cell_goto(&self, mut cell: Cell, new_index: usize) -> Cell {
+        cell.goto(new_index);
+        cell
+    }
+
     fn execute_next_gene(&mut self, mut cell: Cell) -> Cell {
         match cell.get_next_gene() {
             Gene::MoveForward => self.move_cell(cell),
@@ -62,7 +67,7 @@ impl Field {
             // Gene::ShareEnergy => {}
             Gene::SkipMove => cell,
             // Gene::Split => {}
-            // Gene::GoTo(_) => {}
+            Gene::GoTo(new_index) => self.cell_goto(cell, new_index),
             _ => cell,
         }
     }
