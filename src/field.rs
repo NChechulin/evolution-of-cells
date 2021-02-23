@@ -56,7 +56,7 @@ impl Field {
             Gene::MoveForward => self.move_cell(cell),
             // Gene::Eat => {}
             Gene::Photosynthesize => self.cell_photosynthesize(cell),
-            // Gene::ChangeLineOfSight(_) => {}
+            Gene::ChangeLineOfSight(direction) => self.change_cell_line_of_sight(cell, direction),
             // Gene::AttachToCell => {}
             // Gene::DetachFromAllCells => {}
             // Gene::ShareEnergy => {}
