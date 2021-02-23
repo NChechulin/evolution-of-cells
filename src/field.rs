@@ -37,17 +37,17 @@ impl Field {
     }
 
     fn move_cell(&self, mut cell: Cell) -> Cell {
-        let new_pos = cell.get_new_pos();
-
-        if self.position_is_empty(new_pos.0, new_pos.1) {
-            cell.x_pos = new_pos.0;
-            cell.y_pos = new_pos.1;
-        }
+        cell.move_forward();
         cell
     }
 
     fn cell_photosynthesize(&self, mut cell: Cell) -> Cell {
-        cell.energy += cell.energy_constants.photosynthesize;
+        cell.photosynthesize();
+        cell
+    }
+
+    fn change_cell_line_of_sight(&self, mut cell: Cell, new_direction: u8) -> Cell {
+        cell.change_line_of_sight(new_direction);
         cell
     }
 

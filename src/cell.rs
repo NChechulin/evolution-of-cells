@@ -37,7 +37,7 @@ impl Cell {
             max_energy: 256f32,
             lifetime: 0,
             line_of_sight: Cell::direction_by_number(direction),
-            genome: [1, 4, 1, 10, 1, 4, 1, 8, 1, 11, 1, 1, 7, 1, 11, 1, 11, 1, 8, 1, 10, 1, 11, 1, 7, 1, 11, 1, 9, 1, 8, 1, 9, 1, 5, 1, 6, 1, 7, 1, 10, 1, 11, 1, 9, 1, 7, 1, 8, 1, 9, 1, 11, 1, 4, 1, 5, 1, 4, 1, 6, 1, 6, 1],
+            genome: [1, 4, 1, 10, 1, 4, 1, 8, 1, 3, 1, 1, 7, 1, 11, 1, 3, 1, 8, 1, 10, 1, 11, 1, 7, 1, 11, 1, 9, 1, 8, 1, 9, 1, 5, 1, 6, 3, 7, 1, 10, 1, 11, 1, 9, 1, 7, 1, 8, 1, 9, 1, 11, 1, 4, 1, 5, 1, 4, 1, 6, 1, 6, 1],
             genome_index: 0,
             energy_constants,
         }
@@ -162,6 +162,20 @@ impl Cell {
     //     // self.genome_index = new_index;
     //     // self.execute_gene();
     // }
+
+    pub fn move_forward(&mut self) {
+        let new_pos = self.get_new_pos();
+        self.x_pos = new_pos.0;
+        self.y_pos = new_pos.1;
+    }
+
+    pub fn photosynthesize(&mut self) {
+        self.energy += self.energy_constants.photosynthesize;
+    }
+
+    pub fn change_line_of_sight(&mut self, direction: u8) {
+        self.line_of_sight = Cell::direction_by_number(direction);
+    }
 
     pub fn get_next_gene(&mut self) -> Gene {
         self.lifetime += 1;
